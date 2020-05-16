@@ -5,17 +5,43 @@
 
 clear all, close all
 
-qtd_classes = 7;
-qtd_fotos = 20;
+Questao = 4;
+
+cellSize = [4 4];
+if(Questao == 1)
+    qtd_classes = 7;
+    qtd_fotos = 20;
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+elseif(Questao == 2)
+    qtd_classes = 10;
+    qtd_fotos = 14;
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
+elseif(Questao == 3)
+    qtd_classes = 7;
+    qtd_fotos = 20;
+    typeExtratorDeCaracteristicas = 2;
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+    cellSize = [44 44];
+else
+    qtd_classes = 10;
+    qtd_fotos = 14;
+    typeExtratorDeCaracteristicas = 2;
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
+    cellSize = [16 16];
+end
+    
+%% Ler o Comjunto de Treinamento e Teste
 
 porcertagem_teste = 0.3;
-boolCaracteristicas = 0;
 
-[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs2(qtd_classes,qtd_fotos,porcertagem_teste,boolCaracteristicas);
+[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs(qtd_classes,qtd_fotos,porcertagem_teste,typeExtratorDeCaracteristicas,caminho,cellSize);
 cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6') % COLOQUE O ENDEREÇO !!!!
 
+%% Gerar a PCA com o conjunto de treinamento
 [P PC mn] = GerarPCs(X_train);
 
+
+%% Avaliar o Conjunto de Teste
 i= 1;
 c = size(Y_test,2);
 preditc_teste = [];
@@ -29,15 +55,11 @@ end
 
 
 acuracia = sum(preditc_teste == Y_test)/length(Y_test)*100;
-acuracia
+disp("Acuracia Total:"+acuracia);
 
-%%Um resumo de linha normalizado de linha exibe as porcentagens de observações classificadas correta e incorretamente para cada classe verdadeira. Um resumo da coluna normalizado da coluna exibe
-%%as porcentagens de observações classificadas correta e incorretamente para cada classe prevista.
 C = confusionmat(Y_test,preditc_teste);
 %figure();
 %cm = confusionchart(C);
-
-
 acuraciaPorClasse = [];
 qtd_fotos_teste = (qtd_fotos - ceil(qtd_fotos*(1-porcertagem_teste)));
 for linha= 1:qtd_classes
@@ -49,22 +71,19 @@ for linha= 1:qtd_classes
     end
 end
 for linha= 1:qtd_classes
-
-    disp ("classe "+linha+": "+acuraciaPorClasse(linha)+" %");
-    
+    disp ("classe "+linha+": "+acuraciaPorClasse(linha)+" %");   
 end
 
 %% Testar Indivíduos separadamente
 i = 1;
 while(i)
-   im = input('Informe a imagem (entre aspas simples): '); %nome da pasta\imagem. Ex: 's39\3.pgm'
+   im = input('Informe a imagem (entre aspas simples): '); %nome da pasta\imagem. Ex: 's1\12.tiff'
    if(im == 0)
        break;
    end
    %1º parâmetro: endereço da pasta de imagens
-   %x = imread(strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo',strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
-   x = imread(strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2',strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
-   aux_x = ProjetarAmostra(x,mn,P,2);
+   x = imread(strcat(caminho,strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
+   aux_x = ProjetarAmostra(x,mn,P,typeExtratorDeCaracteristicas);
    d = Classificar(PC, aux_x);
    figure;
    imshowpair(reshape(X_train_aux(:,d),256,256),x,'montage')

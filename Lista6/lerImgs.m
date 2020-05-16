@@ -1,4 +1,4 @@
-function [X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = x(qtd_classes,qtd_fotos,porcertagem_teste,boolCaracteristicas)
+function [X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = x(qtd_classes,qtd_fotos,porcertagem_teste,typeExtratorDeCaracteristicas,caminho,cellSize)
 X_train = [];
 Y_train = [];
 X_test = [];
@@ -10,15 +10,16 @@ w = 1;
 b = 1;
 for j = 1:qtd_classes
     %1º parâmetro: endereço da pasta de imagens
-    %file = strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo','\s');  % COLOQUE O ENDEREÇO !!!!
-    file = strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2','\s');  % COLOQUE O ENDEREÇO !!!!
+    file =  strcat(caminho,'\s');
     filename = strcat(file,int2str(j));
     cd(filename)
     for k = 1:qtd_fotos
         x = imread(strcat(int2str(k),'.tiff'));
         
-        if(boolCaracteristicas == 1)       
-            y = extractHOGFeatures(x,'CellSize',[16 16]);
+        if(typeExtratorDeCaracteristicas == 1) 
+            
+        elseif(typeExtratorDeCaracteristicas == 2)       
+            y = extractHOGFeatures(x,'CellSize',cellSize);
             s = reshape(x,[size(x,1)*size(x,2),1]);
             if( k <= aux) 
                 X_train_aux = [X_train_aux , s];
@@ -44,7 +45,7 @@ for j = 1:qtd_classes
         
     end
 end
-if(boolCaracteristicas == 1)
+if(typeExtratorDeCaracteristicas == 2)
     X_train = transpose(X_train);
     X_test = transpose(X_test);
 end

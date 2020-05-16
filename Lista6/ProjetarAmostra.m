@@ -7,10 +7,12 @@
 %   x = amostra no novo espaço vetorial
 function x = ProjetarAmostra(x,mn,P,typeReshape)
     if(typeReshape== 1)
-        x = reshape(x,[size(x,1)*size(x,2),1]);
+        
     elseif (typeReshape== 2)
         x = extractHOGFeatures(x,'CellSize',[16 16]);
         x = transpose(x);
+    elseif (typeReshape== 3)
+        x = reshape(x,[size(x,1)*size(x,2),1]);
     else
         
     end
