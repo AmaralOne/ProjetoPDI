@@ -5,13 +5,13 @@
 
 clear all, close all
 
-qtd_classes = 10;
-qtd_fotos = 14;
+qtd_classes = 7;
+qtd_fotos = 20;
 
 porcertagem_teste = 0.3;
-boolCaracteristicas = 1;
+boolCaracteristicas = 0;
 
-[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs(qtd_classes,qtd_fotos,porcertagem_teste,boolCaracteristicas);
+[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs2(qtd_classes,qtd_fotos,porcertagem_teste,boolCaracteristicas);
 cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6') % COLOQUE O ENDEREÇO !!!!
 
 [P PC mn] = GerarPCs(X_train);
@@ -34,8 +34,8 @@ acuracia
 %%Um resumo de linha normalizado de linha exibe as porcentagens de observações classificadas correta e incorretamente para cada classe verdadeira. Um resumo da coluna normalizado da coluna exibe
 %%as porcentagens de observações classificadas correta e incorretamente para cada classe prevista.
 C = confusionmat(Y_test,preditc_teste);
-figure();
-cm = confusionchart(C);
+%figure();
+%cm = confusionchart(C);
 
 
 acuraciaPorClasse = [];
@@ -62,7 +62,8 @@ while(i)
        break;
    end
    %1º parâmetro: endereço da pasta de imagens
-   x = imread(strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo',strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
+   %x = imread(strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo',strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
+   x = imread(strcat('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2',strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
    aux_x = ProjetarAmostra(x,mn,P,2);
    d = Classificar(PC, aux_x);
    figure;

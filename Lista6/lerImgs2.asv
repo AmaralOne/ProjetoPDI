@@ -6,6 +6,7 @@ Y_test = [];
 X_train_aux = [];
 X_teste_aux = [];
 aux = ceil(qtd_fotos*(1-porcertagem_teste));
+qtd_fotos_teste = ceil(qtd_fotos*(porcertagem_teste))
 w = 1;
 b = 1;
 for j = 1:qtd_classes
@@ -16,24 +17,33 @@ for j = 1:qtd_classes
     cd(filename)
     for k = 1:qtd_fotos
         x = imread(strcat(int2str(k),'.tiff'));
+        r = randi([1 qtd_fotos],1,qtd_fotos_teste,'single');
+        
+        teste = 0;
+        for m = 1:qtd_fotos_teste
+            if(k == r(m))
+                teste = 1;
+            end
+        end
         
         if(boolCaracteristicas == 1)       
             y = extractHOGFeatures(x,'CellSize',[16 16]);
-            s = reshape(x,[size(x,1)*size(x,2),1]);
-            if( k <= aux) 
-                X_train_aux = [X_train_aux , s];
-                Y_train = [Y_train, j];
-                X_train(b, :) = y;
-                b = b+1;
-            else
+            s = reshape(x,[size(x,1)*size(x,2),1]);   
+            if( teste == 0) 
                 X_teste_aux = [X_teste_aux , s];
                 Y_test = [Y_test, j];
                 X_test(w, :) = y;
                 w = w +1;
+            else
+             
+                X_train_aux = [X_train_aux , s];
+                Y_train = [Y_train, j];
+                X_train(b, :) = y;
+                b = b+1;
             end
         else    
             y = reshape(x,[size(x,1)*size(x,2),1]);
-            if( k <= aux)
+            if( teste == 0)
                 X_train = [X_train , y];
                 Y_train = [Y_train, j];
             else
