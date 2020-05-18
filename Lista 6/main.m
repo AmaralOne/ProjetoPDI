@@ -5,17 +5,25 @@
 
 clear all, close all
 
-Questao = 4;
+Questao = 2;
 
 cellSize = [4 4];
 if(Questao == 1)
     qtd_classes = 7;
     qtd_fotos = 20;
-    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+    %caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+    typeExtratorDeCaracteristicas = 1;
+    caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\emocao2';
+    imds = imageDatastore(caminho,'IncludeSubfolders',true,'FileExtensions','.tiff');
+    bag = bagOfFeatures(imds,'StrongestFeatures',1,'PointSelection','Detector');
 elseif(Questao == 2)
     qtd_classes = 10;
     qtd_fotos = 14;
-    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
+    typeExtratorDeCaracteristicas = 1;
+    %caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
+    caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\Individuo';
+    imds = imageDatastore(caminho,'IncludeSubfolders',true,'FileExtensions','.tiff');
+    bag = bagOfFeatures(imds);
 elseif(Questao == 3)
     qtd_classes = 7;
     qtd_fotos = 20;
@@ -34,8 +42,11 @@ end
 
 porcertagem_teste = 0.3;
 
-[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs(qtd_classes,qtd_fotos,porcertagem_teste,typeExtratorDeCaracteristicas,caminho,cellSize);
-cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6') % COLOQUE O ENDEREÇO !!!!
+[X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs(qtd_classes,qtd_fotos,porcertagem_teste,typeExtratorDeCaracteristicas,caminho,cellSize,bag);
+%cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6') % COLOQUE O ENDEREÇO !!!!
+cd('C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6')
+
+% [X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs3(qtd_classes,qtd_fotos,porcertagem_teste,caminho);
 
 %% Gerar a PCA com o conjunto de treinamento
 [P PC mn] = GerarPCs(X_train);
@@ -83,7 +94,7 @@ while(i)
    end
    %1º parâmetro: endereço da pasta de imagens
    x = imread(strcat(caminho,strcat('\',im)));   % COLOQUE O ENDEREÇO !!!!
-   aux_x = ProjetarAmostra(x,mn,P,typeExtratorDeCaracteristicas);
+   aux_x = ProjetarAmostra(x,mn,P,typeExtratorDeCaracteristicas,bag);
    d = Classificar(PC, aux_x);
    figure;
    imshowpair(reshape(X_train_aux(:,d),256,256),x,'montage')
