@@ -5,46 +5,49 @@
 
 clear all, close all
 
-Questao = 2;
+Questao = 3;
 
 cellSize = [4 4];
 if(Questao == 1)
     qtd_classes = 7;
     qtd_fotos = 20;
-    %caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista 6\emocao2';
     typeExtratorDeCaracteristicas = 1;
-    caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\emocao2';
+    %caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\emocao2';
     imds = imageDatastore(caminho,'IncludeSubfolders',true,'FileExtensions','.tiff');
     bag = bagOfFeatures(imds,'StrongestFeatures',1,'PointSelection','Detector');
 elseif(Questao == 2)
     qtd_classes = 10;
     qtd_fotos = 14;
     typeExtratorDeCaracteristicas = 1;
-    %caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
-    caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\Individuo';
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista 6\Individuo';
+    %caminho = 'C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6\Individuo';
     imds = imageDatastore(caminho,'IncludeSubfolders',true,'FileExtensions','.tiff');
     bag = bagOfFeatures(imds);
 elseif(Questao == 3)
     qtd_classes = 7;
     qtd_fotos = 20;
     typeExtratorDeCaracteristicas = 2;
-    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\emocao2';
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista 6\emocao2';
     cellSize = [44 44];
+    bag = [];
 else
     qtd_classes = 10;
     qtd_fotos = 14;
     typeExtratorDeCaracteristicas = 2;
-    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6\Individuo';
+    caminho = 'C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista 6\Individuo';
     cellSize = [16 16];
+    bag = [];
 end
-    
+  
+typeExtratorDeCaracteristicas = 0;
 %% Ler o Comjunto de Treinamento e Teste
 
 porcertagem_teste = 0.3;
 
 [X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs(qtd_classes,qtd_fotos,porcertagem_teste,typeExtratorDeCaracteristicas,caminho,cellSize,bag);
-%cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista6') % COLOQUE O ENDEREÇO !!!!
-cd('C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6')
+cd('C:\Users\FlavioFilho\Documents\faculdade\9_Periodo\PDI\ProjetoFinal\ProjetoPDI\Lista 6') % COLOQUE O ENDEREÇO !!!!
+%cd('C:\Users\Gideon\Desktop\PUC\Graduacao\9º Período\CMP1084 - Processamento Digital de Imagens\N2\Listas de exercícios\Lista 6')
 
 % [X_train, Y_train,X_test,Y_test,X_train_aux,X_teste_aux] = lerImgs3(qtd_classes,qtd_fotos,porcertagem_teste,caminho);
 
