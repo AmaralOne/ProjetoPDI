@@ -10,7 +10,7 @@ function x = ProjetarAmostra(x,mn,P,typeReshape,bag)
         x = encode(bag, x); % feature vector.
         x = x';
     elseif (typeReshape== 2)
-        x = extractHOGFeatures(x,'CellSize',[16 16]);
+        x = extractHOGFeatures(x,'CellSize',[4 4]);
         x = transpose(x);
     elseif (typeReshape== 3)
         x = reshape(x,[size(x,1)*size(x,2),1]);
