@@ -27,6 +27,7 @@ for j = 1:qtd_classes
         x = strcat(int2str(j),x);
         x = imread(x);        
         B = imfilter(x,h);
+        B = imadjust(B,[],[],0.5); % Gamma correction.
         x = imresize(B,0.5);
         %faceDetector = vision.CascadeObjectDetector;
         %bboxes = faceDetector(x);
