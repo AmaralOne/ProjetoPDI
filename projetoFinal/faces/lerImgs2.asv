@@ -36,8 +36,8 @@ for j = 1:qtd_classes
         elseif(config == 2)
             B = imfilter(x,h); % Filtro de Média.
             B = imadjust(B,[],[],0.8); % Gamma correction.
-            x = imresize(B,0.5);% Redimensionar Imagem.
-            x = imcrop(x,[63 25 207 180]);% Recortar somente a face.
+            x = imresize(B,0.5);
+            x = imcrop(x,[63 25 207 180]);
         else
             x = imresize(x,0.5);
         end
