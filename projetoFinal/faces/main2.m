@@ -14,7 +14,7 @@ clear all, close all
     config = 1; % 1 - HOG COM O CORPOR; 2 - HOG COM A FACE; 3 - SOMENTE HOG
 vetor_acuracia = [];
 vetor_acuracia_por_classe = [];
-for k = 1:1
+for k = 1:30
 %% Ler o Comjunto de Treinamento e Teste
 disp("Teste "+k);
 porcertagem_teste = 0.3;
